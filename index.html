@@ -275,6 +275,7 @@ body.pipemode .pipewrap{display:block}
 .pipewrap .say{max-width:720px}
 @media (max-width:640px){.pipewrap table{min-width:580px}}
 .pipewrap .label.stop-l{color:var(--stop)}
+.pipewrap .was{font-size:12px;opacity:.65;font-weight:400;white-space:nowrap}
 .checks{display:grid;gap:8px;max-width:720px}
 .checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:15.5px}
 .checks input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:var(--ok)}
@@ -364,38 +365,54 @@ body.tzmode .tzwrap{display:block}
 <section class="pipewrap" id="pipeline">
   <div class="stage-head"><span class="num">▸</span><h1>Work the Pipeline</h1></div>
   <p class="lead">Keep the dialer on for most of the day. Your job is to get as many owners as possible to answer. A new lead gets a call inside 5 minutes, and everything else is dialed in the order below. When two things compete, the higher one wins.</p>
-  <p class="note">The texts and reminders go out automatically. You dial. Every attempt is a double dial: no answer, hang up, call right back. Owners pick up most before the bays fill (8 to 9), at lunch (11:30 to 1), and near close (4 to 6), their time.</p>
+  <p class="note">The texts and reminders go out automatically. You dial. The first call to a new lead is a double dial: no answer, hang up, call right back. Owners pick up most before the bays fill (8 to 9), at lunch (11:30 to 1), and near close (4 to 6), their time.</p>
 
   <h2 class="sec">1. The order</h2>
   <div class="tbl"><table class="ord">
     <thead><tr><th>#</th><th>What</th><th>Pipeline stage</th><th>Do this</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><b>New lead</b></td><td>Lead In, Referral In, and anyone who just booked himself</td><td>Double dial inside 5 minutes. These columns stay at zero. Booked himself: run the Auto-Booking Call.</td></tr>
+      <tr><td>1</td><td><b>New lead</b></td><td>Lead In, Referral In, and anyone who just booked himself</td><td>Double dial inside 5 minutes. Lead In is empty at the end of every day. Booked himself: run the Auto-Booking Call.</td></tr>
       <tr><td>2</td><td><b>He replied</b></td><td>Replied To Follow Ups, No Show Demo | Replied, any text or missed call</td><td>Call him inside 5 minutes. Offer two times.</td></tr>
       <tr><td>3</td><td><b>Callback</b></td><td>Requested Call Back</td><td>Call at the exact minute he gave.</td></tr>
       <tr><td>4</td><td><b>Today's demos</b></td><td>Demo Call Booked</td><td>Call 1 hour before the demo.</td></tr>
       <tr><td>5</td><td><b>Today's no-shows and cancels</b></td><td>No Show Demo, Cancelled/Reschedule</td><td>Call inside 5 minutes of the miss. Rebook inside 48 hours.</td></tr>
-      <tr><td>6</td><td><b>Not reached yet</b></td><td>No contact x1, 2x, 3x</td><td>Run the dial cadence. Every attempt is a double dial.</td></tr>
+      <tr><td>6</td><td><b>Not reached yet</b></td><td>Day 1 leftovers, then Day 2, Day 3, Days 4 to 7</td><td>Run the new lead track below, in that order.</td></tr>
       <tr><td>7</td><td><b>Old no-shows</b></td><td>No Show Demo, older than 7 days</td><td>30 a day, newest first.</td></tr>
-      <tr><td>8</td><td><b>Parked</b></td><td>Follow Up In 30+ Days, 30 Day Wait, Long Term Nurture</td><td>Call on their date.</td></tr>
+      <tr><td>8</td><td><b>Parked</b></td><td>Follow Up In 30+ Days, Long Term Nurture</td><td>Follow Up In 30+ Days: call on their date. Long Term Nurture: dial only when everything above is empty.</td></tr>
     </tbody></table></div>
   <div class="stop">Three things interrupt whatever you are doing: a new lead, a reply, and a callback or confirmation that is due.</div>
 
-  <h2 class="sec">2. Every stage</h2>
+  <h2 class="sec">2. The new lead track</h2>
+  <p class="note">Each stage is a day. The stage tells you what to do today. No answer moves the card one stage to the right, once a day, at end of day.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Stage</th><th>When</th><th>Dials</th><th>No answer</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1: New Lead</b><br><span class="was">now: Lead In</span></td><td>The day the lead comes in</td><td>Call inside 5 minutes, double dial. One more dial midday. One more at end of day.</td><td>End of day: move to Day 2.</td></tr>
+      <tr><td><b>Day 2: No Answer</b><br><span class="was">now: No contact x1</span></td><td>The next day</td><td>2 dials: one morning, one afternoon.</td><td>End of day: move to Day 3.</td></tr>
+      <tr><td><b>Day 3: No Answer</b><br><span class="was">now: No contact 2x</span></td><td>The day after</td><td>2 dials, at different times than Day 2.</td><td>End of day: move to Days 4 to 7.</td></tr>
+      <tr><td><b>Days 4 to 7: Last Tries</b><br><span class="was">now: No contact 3x</span></td><td>The rest of the week</td><td>1 dial a day. Change the time every day.</td><td>After Day 7: move to Long Term Nurture.</td></tr>
+    </tbody></table></div>
+  <div class="stop">12 dials over 7 days. No answer never skips a stage and never stays put.</div>
+  <h3 class="sec">A card only leaves the track for a reason</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>What happened</th><th>Move him to</th></tr></thead>
+    <tbody>
+      <tr><td><b>He booked</b></td><td>Demo Call Booked</td></tr>
+      <tr><td><b>"Call me later"</b></td><td>Requested Call Back, with a time on it</td></tr>
+      <tr><td><b>He replied to a text</b></td><td>Replied To Follow Ups. Call him right then.</td></tr>
+      <tr><td><b>He said no</b></td><td>DQ / Not Interested</td></tr>
+    </tbody></table></div>
+
+  <h2 class="sec">3. Every other stage</h2>
   <p class="note">Every card has one action and one next stage. A card never sits without a dated task on it. When he answers, at any stage, run the discovery call and fill the note.</p>
   <h3 class="sec">Getting him on the phone</h3>
   <div class="tbl"><table>
     <thead><tr><th>Stage</th><th>Do this</th><th>Then move him to</th></tr></thead>
     <tbody>
-      <tr><td><b>Lead In</b></td><td>Double dial inside 5 minutes.</td><td>Booked: Demo Call Booked. No answer: No contact x1.</td></tr>
-      <tr><td><b>Referral In</b></td><td>Same as Lead In. Open with the name of who referred him.</td><td>Same as Lead In.</td></tr>
-      <tr><td><b>No contact x1</b></td><td>Day 1. Three more double dials today: 30 minutes later, next window, last window.</td><td>Nothing by end of Day 1: No contact 2x.</td></tr>
-      <tr><td><b>No contact 2x</b></td><td>Days 2 and 3. Three double dials a day: morning, lunch, close.</td><td>Nothing after Day 3: No contact 3x.</td></tr>
-      <tr><td><b>No contact 3x</b></td><td>Days 4 to 14. Two dials a day through Day 7, then one a day.</td><td>Nothing after Day 14: 30 Day Wait.</td></tr>
-      <tr><td><b>30 Day Wait</b></td><td>No dials. Set a task 30 days out. On that date: one double dial a day for 3 days.</td><td>Nothing: Long Term Nurture.</td></tr>
-      <tr><td><b>Long Term Nurture</b></td><td>No daily dials. The automatic sequence stays on.</td><td>Any reply: Replied To Follow Ups.</td></tr>
-      <tr><td><b>Requested Call Back</b></td><td>Call at the minute he gave. No answer: double dial, then try the next window.</td><td>Booked: Demo Call Booked. Three misses: No contact 2x.</td></tr>
+      <tr><td><b>Referral In</b></td><td>Same as Day 1: New Lead. Open with the name of who referred him.</td><td>Booked: Demo Call Booked. No answer: Day 2 at end of day.</td></tr>
+      <tr><td><b>Requested Call Back</b></td><td>Call at the minute he gave. No answer: double dial, then try the next window.</td><td>Booked: Demo Call Booked. Three misses: Day 3: No Answer.</td></tr>
       <tr><td><b>Replied To Follow Ups</b></td><td>Call inside 5 minutes. No pickup: double dial, then try again in 30 minutes.</td><td>Demo Call Booked, or Requested Call Back.</td></tr>
+      <tr><td><b>Long Term Nurture</b></td><td>The automatic sequence stays on. Dial these only when everything above is empty.</td><td>Any reply: Replied To Follow Ups.</td></tr>
     </tbody></table></div>
   <h3 class="sec">Getting him to show</h3>
   <div class="tbl"><table>
@@ -403,7 +420,7 @@ body.tzmode .tzwrap{display:block}
     <tbody>
       <tr><td><b>Demo Call Booked</b></td><td>Booked himself: run the Auto-Booking Call inside 5 minutes of the booking. Everyone: run the Confirmation Call 1 hour before. No answer: call again at 15 minutes and tell the closer.</td><td>Showed To Demo, No Show Demo, or Cancelled/Reschedule.</td></tr>
       <tr><td><b>Cancelled/Reschedule</b></td><td>Call inside 5 minutes of the cancel. Offer two times inside 48 hours. No answer: three days of dials.</td><td>Demo Call Booked. Not reached by Day 3: Follow Up In 30+ Days, with a date.</td></tr>
-      <tr><td><b>No Show Demo</b></td><td>At 5 minutes past the start: double dial and run the No-Show Call. Reached inside 15 minutes: ask the closer if he can still take it. Otherwise restart the dial cadence at Day 1.</td><td>Rebooked: Demo Call Booked. Replied: No Show Demo | Replied. Day 14 with nothing, or a second no-show: No Show Burned.</td></tr>
+      <tr><td><b>No Show Demo</b></td><td>At 5 minutes past the start: double dial and run the No-Show Call. Reached inside 15 minutes: ask the closer if he can still take it. Otherwise run the same 7 days of dials as a new lead.</td><td>Rebooked: Demo Call Booked. Replied: No Show Demo | Replied. Day 7 with nothing, or a second no-show: No Show Burned.</td></tr>
       <tr><td><b>No Show Demo | Replied</b></td><td>Call inside 5 minutes. Rebook with two times inside 48 hours. Send the video again.</td><td>Demo Call Booked.</td></tr>
       <tr><td><b>No Show Burned</b></td><td>No dials. The automatic sequence stays on.</td><td>Any reply: No Show Demo | Replied.</td></tr>
     </tbody></table></div>
