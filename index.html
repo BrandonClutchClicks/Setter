@@ -482,7 +482,7 @@ const S = [
   {t:'p',s:"The call is short. Open, confirm the shop, ask five questions, tease, book the time, and get him to click the video link before you hang up. Each question fills one line of the note."},
   {t:'table',head:['Stage','Line it fills on the note'],rows:[
     ['1. Intro','Nothing. It gets the yes on the form'],
-    ['2. Pre-framing the set','Nothing. One shop or two'],
+    ['2. Pre-framing the set','Nothing. His yes to the questions, then one shop or two'],
     ['3. Discovering the site','Shop, Location, GMB'],
     ['4. The five questions','Services, Website, Systems They Use, Marketing, Google Review System'],
     ['5. Tease','Nothing. It sets up the booking'],
@@ -514,9 +514,11 @@ const S = [
   {t:'stop',s:'Wait for the yes.',hears:['Oh, yeah, yeah','With who?',"I know, but I've been so busy"],branch:'"With who?" → say the form line again. Busy → go to **If He Brushes You Off**.'},
 ]},
 {id:'s2',num:'2',title:'Pre-Framing the Set',blocks:[
-  {t:'goal',s:'Tell him he never got booked, and ask how many shops.'},
+  {t:'goal',s:'Tell him he never got booked, get his yes to a few questions, and ask how many shops.'},
   {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Got it, well we actually never got you booked in with one of our shop specialists…"`,`"Are you looking to get started on one shop or two shops at the moment?"`]},
+  {t:'say',lines:[`"Got it, well we actually never got you booked in with one of our shop specialists…"`,`"Before I get you booked in, I'd like to ask you a few quick questions about your shop. That way our shop specialist comes in prepared, already knowing where you're at, and we're not wasting your time. Does that sound good?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Are you looking to get started on one shop or two shops at the moment?"`]},
   {t:'stop',s:'Wait for the answer.'},
 ]},
 {id:'s3',num:'3',title:'Discovering the Site',blocks:[
