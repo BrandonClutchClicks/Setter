@@ -518,12 +518,12 @@ const S = [
   {t:'stop',s:'Wait for the answer.'},
 ]},
 {id:'s3',num:'3',title:'Discovering the Site',blocks:[
-  {t:'goal',s:'Confirm the shop and the city. Fills **Shop, Location, GMB**.'},
+  {t:'goal',s:'Confirm the shop and the address. Fills **Shop, Location, GMB**.'},
   {t:'label',s:'Say this'},
   {t:'say',lines:[`"Got it. And the name of your shop is….. Is that right?"`]},
-  {t:'stop',s:'Wait for the yes. Copy the listing link into the note.'},
-  {t:'say',lines:[`"Located in ______ / What city is your shop located in?"`]},
-  {t:'stop',s:'Wait for the answer.'},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"I'm pulling up your listing on Google right now. What's the address there, so I make sure I've got the right one?"`]},
+  {t:'stop',s:'Wait for the address. Match it to the listing and copy the listing link into the note.',branch:'No listing comes up → write "GMB: none found" on the note and keep going.'},
 ]},
 {id:'s4',num:'4',title:'The Five Questions',blocks:[
   {t:'goal',s:'Five questions, in this order. Each one fills a line of the note: **Services, Website, Systems They Use, Marketing, Google Review System**.'},
