@@ -404,7 +404,7 @@ body.tzmode .tzwrap{display:block}
     </tbody></table></div>
 
   <h2 class="sec">3. Every other stage</h2>
-  <p class="note">Every card has one action and one next stage. A card never sits without a dated task on it. When he answers, at any stage, run the discovery call and fill the note.</p>
+  <p class="note">Every card has one action and one next stage. A card never sits without a dated task on it. When he answers, at any stage, run the set call and fill the note.</p>
   <h3 class="sec">Getting him on the phone</h3>
   <div class="tbl"><table>
     <thead><tr><th>Stage</th><th>Do this</th><th>Then move him to</th></tr></thead>
@@ -420,7 +420,7 @@ body.tzmode .tzwrap{display:block}
     <tbody>
       <tr><td><b>Demo Call Booked</b></td><td>Booked himself: run the Auto-Booking Call inside 5 minutes of the booking. Everyone: run the Confirmation Call 1 hour before. No answer: call again at 15 minutes and tell the closer.</td><td>Showed To Demo, No Show Demo, or Cancelled/Reschedule.</td></tr>
       <tr><td><b>Cancelled/Reschedule</b></td><td>Call inside 5 minutes of the cancel. Offer two times inside 48 hours. No answer: three days of dials.</td><td>Demo Call Booked. Not reached by Day 3: Follow Up In 30+ Days, with a date.</td></tr>
-      <tr><td><b>No Show Demo</b></td><td>At 5 minutes past the start: double dial and run the No-Show Call. Reached inside 15 minutes: ask the closer if he can still take it. Otherwise run the same 7 days of dials as a new lead.</td><td>Rebooked: Demo Call Booked. Replied: No Show Demo | Replied. Day 7 with nothing, or a second no-show: No Show Burned.</td></tr>
+      <tr><td><b>No Show Demo</b></td><td>At 5 minutes past the start: double dial and run No-Show Recovery. Reached inside 15 minutes: ask the closer if he can still take it. Otherwise run the same 7 days of dials as a new lead.</td><td>Rebooked: Demo Call Booked. Replied: No Show Demo | Replied. Day 7 with nothing, or a second no-show: No Show Burned.</td></tr>
       <tr><td><b>No Show Demo | Replied</b></td><td>Call inside 5 minutes. Rebook with two times inside 48 hours. Send the video again.</td><td>Demo Call Booked.</td></tr>
       <tr><td><b>No Show Burned</b></td><td>No dials. The automatic sequence stays on.</td><td>Any reply: No Show Demo | Replied.</td></tr>
     </tbody></table></div>
@@ -479,103 +479,99 @@ const S = [
 {id:'how',num:'0',title:'How This Call Works',blocks:[
   {t:'p',s:"Your job on this call is not to sell. Your job is to book the demo and fill the closer note, so the closer walks in already knowing what to hit."},
   {t:'label',s:'The route'},
-  {t:'p',s:"The questions follow a customer through his shop. He finds the shop on Google, clicks the website, calls, pays, and leaves a review. Walk the same path and every question leads to the next one. Each question fills one line of the note."},
+  {t:'p',s:"The call is short. Open, confirm the shop, ask five questions, book the time, and get him to click the video link before you hang up. Each question fills one line of the note."},
   {t:'table',head:['Stage','Line it fills on the note'],rows:[
-    ['1. Open','Shop, Location, GMB'],
-    ['2. Finds him','Services'],
-    ['3. Clicks','Website'],
-    ['4. Calls','Missed Calls'],
-    ['5. Pays','Systems They Use, Avg. Ticket'],
-    ['6. Reviews','Google Review System'],
-    ['7. Big picture','Marketing, Lead Flow'],
-    ['8. Tease','Nothing. It sets up the booking'],
-    ['9. Book','Demo day and time'],
-    ['10. Video and confirm','Mobile number']]},
+    ['1. Intro','Nothing. It gets the yes on the form'],
+    ['2. Pre-framing the set','Nothing. One shop or two'],
+    ['3. Discovering the site','Shop, Location, GMB'],
+    ['4. The five questions','Services, Website, Systems They Use, Avg. Ticket, Google Review System'],
+    ['5. Go into the set','Mobile number'],
+    ['6. Confirming time','Demo day and time'],
+    ['7. End the call','Nothing. Calendar invite and the confirmation call']]},
   {t:'label',s:'Before you dial'},
   {t:'p',s:"Open his record in the CRM and his Google listing. You need his name, the street the shop is on, his review count, and whether he has a website. Every bracket in the script comes from those two screens."},
   {t:'label',s:'Rules of the call'},
   {t:'ul',items:[
-    '**Ask about what you see.** Start questions with "I see" or "I noticed." He should feel like you did your homework on his shop.',
+    '**Ask about what you see.** "I see you got a website." "I see you\'ve got about [X] Google reviews." He should feel like you did your homework on his shop.',
     '**Never argue.** "I hear you." "I appreciate you being transparent." Then go straight back to his listing.',
-    '**Tease, don\'t teach.** "Two to three things right off the bat." The education belongs to the closer.',
-    '**Book with two choices.** Weekdays or weekends, mornings or evenings, then two times. Never "when works for you?"',
+    '**Book with two choices.** Morning or evening, then two times. Never "when works for you?"',
     '**Leave price and ads to the closer.** If he asks, the video explains exactly what we set up.',
     '**Every call gets a note,** booked or not.']},
   {t:'label',s:'The key note'},
   {t:'p',s:"No question fills the key note. Write down whatever he said with the most heat, in his words."},
   {t:'ul',items:['Raul: "This year, I don\'t know why. I just haven\'t got any."','Christian: "Right now I\'m in test mode. I don\'t want to jam myself."']},
 ]},
-{id:'s1',num:'1',title:'Open',blocks:[
-  {t:'goal',s:'Confirm the form and the listing. Fills **Shop, Location, GMB**.'},
+{id:'s1',num:'1',title:'Intro',blocks:[
+  {t:'goal',s:'Fresh lead, inside 24 hours. Get his name, say who you are, and get a yes on the form.'},
   {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Hey, is this [Name]? Hey [Name], it's [Your Name] with Clutch Clicks. I'm calling because you filled out a form on our website about how we help shops grow online. Does that ring a bell?"`]},
+  {t:'say',lines:[`"Hey is this [First Name]?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Hey [Name], this is [Your Name] with Clutch Clicks. How are you doing today?"`]},
+  {t:'stop',s:'Wait. Let him answer.'},
+  {t:'say',lines:[`"I’m calling you because I saw you filled out a form on our website just now/recently about helping your automotive shop grow online."`,`"Does that ring a bell?"`]},
   {t:'stop',s:'Wait for the yes.',hears:['Oh, yeah, yeah','With who?',"I know, but I've been so busy"],branch:'"With who?" → say the form line again. Busy → go to **If He Brushes You Off**.'},
-  {t:'say',lines:[`"Perfect. I've actually got your listing pulled up right now. Is it the one on [street]?"`]},
-  {t:'stop',s:'Wait for the yes. Copy the listing link into the note.',hears:['Yeah',"That's correct",'Yes, sir']},
 ]},
-{id:'s2',num:'2',title:'Finds Him',blocks:[
-  {t:'goal',s:'Find out what the shop does. Fills **Services**.'},
+{id:'s2',num:'2',title:'Pre-Framing the Set',blocks:[
+  {t:'goal',s:'Tell him he never got booked, and ask how many shops.'},
   {t:'label',s:'Say this'},
-  {t:'say',lines:[`"What services do you guys provide?"`]},
+  {t:'say',lines:[`"Got it, well we actually never got you booked in with one of our shop specialists…"`,`"Are you looking to get started on one shop or two shops at the moment?"`]},
+  {t:'stop',s:'Wait for the answer.'},
+]},
+{id:'s3',num:'3',title:'Discovering the Site',blocks:[
+  {t:'goal',s:'Confirm the shop and the city. Fills **Shop, Location, GMB**.'},
+  {t:'label',s:'Say this'},
+  {t:'say',lines:[`"Got it. And the name of your shop is….. Is that right?"`]},
+  {t:'stop',s:'Wait for the yes. Copy the listing link into the note.'},
+  {t:'say',lines:[`"Located in ______ / What city is your shop located in?"`]},
+  {t:'stop',s:'Wait for the answer.'},
+]},
+{id:'s4',num:'4',title:'The Five Questions',blocks:[
+  {t:'goal',s:'Five questions, in this order. Each one fills a line of the note: **Services, Website, Systems They Use, Avg. Ticket, Google Review System**.'},
+  {t:'label',s:'Question 1'},
+  {t:'say',lines:[`"And what do y’all specialize in?"`]},
   {t:'stop',s:'Wait. Let him talk.',hears:['Full range auto mechanic','Body shop, mechanic and a tire shop','Tires and mechanics']},
-]},
-{id:'s3',num:'3',title:'Clicks',blocks:[
-  {t:'goal',s:'Find out who built the website, whether it produces leads, and whether he is locked in. Fills **Website**.'},
-  {t:'label',s:'Say this'},
+  {t:'label',s:'Question 2'},
   {t:'say',lines:[`"I see you got a website. Who built it, and do you know how many leads you're capturing from it?"`]},
   {t:'stop',s:"Wait for the answer. Most won't know.",hears:['None, man',"I don't know offhand","It's through a newer platform"]},
-  {t:'label',s:'If he names a vendor',cls:'alt'},
-  {t:'say',alt:true,lines:[`"Are you locked into a contract with them, or month to month?"`]},
-  {t:'label',s:"If there's no website",cls:'alt'},
-  {t:'say',alt:true,lines:[`"I noticed you don't have a website right now, right?"`]},
-]},
-{id:'s4',num:'4',title:'Calls',blocks:[
-  {t:'goal',s:'Find out what happens when the phone rings and nobody picks up. Fills **Missed Calls**.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"When somebody calls and you guys can't pick up, do you have a system for missed calls?"`]},
-  {t:'stop',s:'Wait for the answer.',hears:['No, we just try to get back to them',"We don't have an answering service"]},
-]},
-{id:'s5',num:'5',title:'Pays',blocks:[
-  {t:'goal',s:'Get the shop system and the ticket. The closer does the money math with this number. Fills **Systems They Use, Avg. Ticket**.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Are you using anything like ShopMonkey, Tekmetric, Mitchell One?"`]},
+  {t:'label',s:"If they don't have a website",cls:'alt'},
+  {t:'say',alt:true,lines:[`"Looks like you're not on there yet — no worries, that's actually one of the first things we set up."`]},
+  {t:'label',s:'Question 3'},
+  {t:'say',lines:[`"Are you using anything like Tekmetric, Mitchell 1, Shopmonkey or CCC ONE?"`]},
   {t:'stop',s:'Wait for the answer.',hears:['Tire Shop by Freedom Soft','I just use Matrix, something like that']},
+  {t:'label',s:'Question 4'},
   {t:'say',lines:[`"What would you say your average ticket size is?"`]},
   {t:'stop',s:'Wait for the number.',hears:['My ticket size?','From five to eight thousand'],branch:'Confirm the number out loud. Raul said "five to eight" and meant $5,000 to $8,000.'},
-]},
-{id:'s6',num:'6',title:'Reviews',blocks:[
-  {t:'goal',s:'Find out whether reviews are a system or luck. Fills **Google Review System**.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"I see you got [X] reviews. Do you have a review system set up, or how'd you get these?"`]},
+  {t:'label',s:'Question 5'},
+  {t:'say',lines:[`"I see you’ve got about [X] Google reviews…. Do you have a review system set up, or how'd you get these?"`]},
   {t:'stop',s:'Wait for the answer.',hears:['They just go ahead and do it by themselves','We do']},
 ]},
-{id:'s7',num:'7',title:'Big Picture',blocks:[
-  {t:'goal',s:'Find out what he does for marketing and whether it is working. Fills **Marketing, Lead Flow**.'},
+{id:'s5',num:'5',title:'Go Into the Set',blocks:[
+  {t:'goal',s:'Tell him about the video, get the number to send it to, and find out when he is free.'},
   {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Are you doing anything marketing-wise right now, or is it word of mouth and referrals?"`]},
-  {t:'stop',s:'Wait for the answer.',hears:['People just call me, and Google','Word of mouth is very big here','Mailers, email, text messaging']},
-  {t:'say',lines:[`"Is that bringing in enough to keep the bays full?"`]},
-  {t:'stop',s:'Wait. This answer is usually the key note.',hears:["This year, I don't know why. I just haven't got any","I've been so busy","I got cars outside the building"]},
-]},
-{id:'s8',num:'8',title:'Tease',blocks:[
-  {t:'goal',s:'Give him a reason to show up that is about his shop. Do not explain the two to three things.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Looking at your listing, I can notice two to three things right off the bat that could get you some quick wins. What I'd like to do is share this with you on a call with one of our shop specialists."`]},
-]},
-{id:'s9',num:'9',title:'Book',blocks:[
-  {t:'goal',s:'Lock the day and the time with two choices.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Weekdays or weekends? Mornings or evenings?"`]},
-  {t:'stop',s:'Wait. Let him pick.',hears:['Weekdays in the mornings','Weekdays, after one o\'clock','The weekends is good']},
-  {t:'say',lines:[`"I got [Time A] or [Time B]. What works better for you?"`]},
-  {t:'stop',s:'Wait. Let him pick one.',hears:['10 is fine',"Let's do 2:30",'1:30']},
-]},
-{id:'s10',num:'10',title:'Video and Confirm',blocks:[
-  {t:'goal',s:'Get the mobile number, send the video, and tell him about the confirmation call.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Is this a good mobile number? I'm going to shoot you a quick four to five minute video that explains exactly what we set up for shops like yours. Watch that video before our call so on our call [day] we can use the time to answer any of your questions and go over where you're at and where your competitors are at."`]},
+  {t:'say',lines:[`"…. What I'm actually gonna do is send you a short 5 minute video that explains exactly what we’ll set up for you."`,`"Is this the best number to send to you?"`]},
   {t:'stop',s:'Wait for the answer.',hears:['Yeah','Yes, this is my cell','No, this is my office number'],branch:'Office number → get his cell before you send the video.'},
-  {t:'say',lines:[`"We'll give you a call about an hour before. If anything changes on your end, let us know. If anything changes on our end, we'll let you know as well."`]},
+  {t:'say',lines:[`"In the meantime — when are you most available, morning or evening?"`]},
+  {t:'stop',s:'Wait. Let him pick.'},
+  {t:'say',lines:[`"Perfect, let me take a look at what’s available…"`]},
+]},
+{id:'s6',num:'6',title:'Confirming Time',blocks:[
+  {t:'goal',s:'Lock the time, check he will be at a computer, and get him to click the video link while he is still on the phone.'},
+  {t:'label',s:'Say this'},
+  {t:'say',lines:[`"Perfect, I've got [Day] at [Time A] or [Time B]. Which works better?"`]},
+  {t:'stop',s:'Wait. Let him pick one.',hears:['10 is fine',"Let's do 2:30",'1:30']},
+  {t:'say',lines:[`"Okay perfect, The call should only be 20-30 minutes long and it’ll be on Google Meets."`,`"Will you be able to be in front of a computer at that time?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Okay, perfect. I got you locked in."`,`"I'm actually going to send you the link to the video right now."`,`"I just sent it. Did you get it? I sent it to your phone. Can you confirm"`]},
+  {t:'stop',s:'Send the video. Wait until he says he got it.',hears:['Yes.']},
+  {t:'say',lines:[`"Perfect. Go ahead and click the link. Can you click that link for me?"`]},
+  {t:'stop',s:'Wait until he clicks it.'},
+  {t:'say',lines:[`"Okay, perfect. Just watch that video, right?"`,`"That video on that link is the short five-minute video that explains what we'll set up, and we'll answer any questions you have."`,`"That way, you can come prepared for the call."`,`"Watch the video…. If you don’t like it, lmk and I’ll cancel your appointment."`,`"Otherwise see you tomorrow at this time."`]},
+]},
+{id:'s7',num:'7',title:'End the Call',blocks:[
+  {t:'goal',s:'Tell him about the calendar invite and the confirmation call.'},
+  {t:'label',s:'Say this'},
+  {t:'say',lines:[`"I'll send the calendar invite over to phone and email and give you a call in the morning the day of our call just to confirm we're still on. Sounds good?"`]},
+  {t:'stop',s:'Wait for the yes.'},
   {t:'p',s:'Then fill the note while the call is fresh. It has its own tab: **Note**, in the top bar.'},
 ]},
 {id:'busy',num:'+',title:'If He Brushes You Off',blocks:[
@@ -589,7 +585,7 @@ const S = [
   {t:'stop',s:'Wait. Let him pick one.',hears:['1:30','Give me a call on Saturday',"Ain't no question"],branch:'He names a day → offer two times on that day.'},
   {t:'label',s:'Once he picks a time',cls:'alt'},
   {t:'say',alt:true,lines:[`"Before that call, I want to grab a few quick things about your shop. That way our shop specialist comes in prepared, already knowing where you're at, and we're not wasting your time."`]},
-  {t:'p',s:'Then run stages 2 through 7, and finish with stage 10.'},
+  {t:'p',s:'Then run **The Five Questions**, send the video the way **Confirming Time** has it, and finish with **End the Call**.'},
 ]},
 {id:'ask',num:'?',title:'If He Asks What You Do',blocks:[
   {t:'goal',s:'Answer in one breath, hand the explaining to the video, and go straight back to your questions. Do not explain the product.'},
@@ -597,10 +593,10 @@ const S = [
   {t:'label',s:'If he asks "What do you guys even do?"',cls:'alt'},
   {t:'say',alt:true,lines:[`"That's a great question. What we do is we actually help shops like yours get more business through Google. One of the mechanisms we use these smart websites would love to shoot over a quick 4- to 5-minute video that explains exactly what we set up for shops like yours. Is this a good mobile number?"`]},
   {t:'stop',s:'Wait for the answer.',hears:['Yeah','Yes, this is my cell','No, this is my office number'],branch:'Office number → get his cell before you send the video.'},
-  {t:'p',s:'Then go back to the stage you were on. You already asked for the mobile number and promised the video, so in stage 10 you only say the confirmation line.'},
+  {t:'p',s:'Then go back to the stage you were on. You already promised the video and asked for the number, so skip those two lines in **Go Into the Set**.'},
 ]},
 {id:'auto',num:'A',title:'Auto-Booking Call',blocks:[
-  {t:'goal',s:'He booked himself from the form, so nobody has talked to him and there is no note. Call inside 5 minutes of the booking. Confirm the time, run the same discovery, tease, and send the video. He still gets the Confirmation Call one hour before.'},
+  {t:'goal',s:'He booked himself from the form, so nobody has talked to him and there is no note. Call inside 5 minutes of the booking. Confirm the time, run the same five questions, tease, and get him to click the video link. He still gets the Confirmation Call one hour before.'},
   {t:'label',s:'Say this'},
   {t:'say',lines:[`"Hey, is this [Name]? Hey [Name], it's [Your Name] with Clutch Clicks. I saw you booked a call with one of our shop specialists for [day] at [time]. Just confirming we're still good for that?"`]},
   {t:'stop',s:'Wait for the yes.',hears:['Yeah','Who is this?','I just filled out a form'],branch:'"Who is this?" → go to **If He Asks What You Do**. He brushes you off → go to **If He Brushes You Off**.'},
@@ -608,13 +604,19 @@ const S = [
   {t:'stop',s:'Wait for the yes. Copy the listing link into the note.',hears:['Yeah',"That's correct"]},
   {t:'say',lines:[`"Before that call, I want to grab a few quick things about your shop. That way our shop specialist comes in prepared, already knowing where you're at, and we're not wasting your time."`]},
   {t:'label',s:'Run the discovery',cls:'stop'},
-  {t:'p',s:'Run stages 2 through 7 exactly as written: Finds Him, Clicks, Calls, Pays, Reviews, Big Picture. Fill the note as you go.'},
+  {t:'p',s:'Run **The Five Questions** exactly as written. Fill the note as you go.'},
   {t:'label',s:'The tease'},
   {t:'say',lines:[`"Looking at your listing, I can notice two to three things right off the bat that could get you some quick wins. [Closer] is going to share those with you on [day] at [time]."`]},
-  {t:'label',s:'Video and confirm'},
-  {t:'say',lines:[
-    `"Is this a good mobile number? I'm going to shoot you a quick four to five minute video that explains exactly what we set up for shops like yours. Watch that video before our call so on our call [day] we can use the time to answer any of your questions and go over where you're at and where your competitors are at."`,
-    `"We'll give you a call about an hour before. If anything changes on your end, let us know. If anything changes on our end, we'll let you know as well."`]},
+  {t:'label',s:'Video'},
+  {t:'say',lines:[`"…. What I'm actually gonna do is send you a short 5 minute video that explains exactly what we’ll set up for you."`,`"Is this the best number to send to you?"`]},
+  {t:'stop',s:'Wait for the answer.',hears:['Yeah','Yes, this is my cell','No, this is my office number'],branch:'Office number → get his cell before you send the video.'},
+  {t:'say',lines:[`"I'm actually going to send you the link to the video right now."`,`"I just sent it. Did you get it? I sent it to your phone. Can you confirm"`]},
+  {t:'stop',s:'Send the video. Wait until he says he got it.',hears:['Yes.']},
+  {t:'say',lines:[`"Perfect. Go ahead and click the link. Can you click that link for me?"`]},
+  {t:'stop',s:'Wait until he clicks it.'},
+  {t:'say',lines:[`"Okay, perfect. Just watch that video, right?"`,`"That video on that link is the short five-minute video that explains what we'll set up, and we'll answer any questions you have."`,`"That way, you can come prepared for the call."`,`"Watch the video…. If you don’t like it, lmk and I’ll cancel your appointment."`]},
+  {t:'label',s:'End the call'},
+  {t:'say',lines:[`"I'll send the calendar invite over to phone and email and give you a call in the morning the day of our call just to confirm we're still on. Sounds good?"`]},
   {t:'p',s:'No answer: double dial, then keep dialing him in every window until you reach him or the demo starts.'},
 ]},
 {id:'confirm',num:'C',title:'Confirmation Call',blocks:[
@@ -639,19 +641,38 @@ const S = [
   {t:'stop',s:'Wait. Let him pick one.',hears:['Tomorrow morning','Next week is better'],branch:'Book inside 48 hours if you can. Move the demo on the calendar and tell the closer.'},
   {t:'p',s:'No answer: double dial, call again at 15 minutes before, and tell the closer.'},
 ]},
-{id:'noshow',num:'N',title:'No-Show Call',blocks:[
-  {t:'goal',s:'Five minutes past the start and he is not on. Get him on now, or get a new time inside 48 hours. Never make him feel bad about missing it.'},
-  {t:'label',s:'Say this'},
-  {t:'say',lines:[`"Hey [Name], it's [Your Name] with Clutch Clicks. [Closer] is on the line for your [time] call. Are you able to jump on real quick?"`]},
-  {t:'stop',s:'Wait for the answer.',hears:['Oh man, I forgot','Yeah, give me a minute',"I'm slammed right now",'Something came up']},
+{id:'noshow',num:'N',title:'No-Show Recovery',blocks:[
+  {t:'goal',s:'He missed the demo. Never make him feel bad about it. Get a new time, run the five questions, and get him to click the video link while he is still on the phone.'},
+  {t:'label',s:'Same day: he is 5 minutes late and the closer is waiting',cls:'alt'},
+  {t:'say',alt:true,lines:[`"Hey [Name], it's [Your Name] with Clutch Clicks. [Closer] is on the line for your [time] call. Are you able to jump on real quick?"`]},
+  {t:'stop',s:'Wait for the answer.',hears:['Oh man, I forgot','Yeah, give me a minute',"I'm slammed right now",'Something came up'],branch:'He cannot jump on → go to **Rebook** below.'},
   {t:'label',s:'If he can jump on',cls:'alt'},
   {t:'say',alt:true,lines:[`"Perfect. I'm sending the link to your phone right now. Click it and [Closer] is right there."`]},
-  {t:'label',s:'If he cannot',cls:'alt'},
-  {t:'say',alt:true,lines:[`"No worries, I know the shop gets slammed. Let's get you a new time so you still see those two to three things on your listing. I got [Time A] or [Time B]. What works better for you?"`]},
-  {t:'stop',s:'Wait. Let him pick one.',hears:['Tomorrow works','Let\'s do the morning']},
-  {t:'say',alt:true,lines:[`"Got you down for [time]. Same thing, we'll give you a call about an hour before."`]},
-  {t:'label',s:'If the miss was days ago',cls:'alt'},
-  {t:'say',alt:true,lines:[`"Hey [Name], it's [Your Name] with Clutch Clicks. We had a call set to go over your Google listing and missed each other. I still have those two to three things pulled up. I got [Time A] or [Time B]. What works better for you?"`]},
+  {t:'label',s:'No show recovery'},
+  {t:'say',lines:[`"Hey [Name], this is [Your Name] with Clutch Clicks. How are you doing today?"`]},
+  {t:'stop',s:'Wait. Let him answer.'},
+  {t:'say',lines:[`"I'm just calling because I noticed you were actually on our calendar to speak with one of our shop specialists about a week ago about helping you grow your auto shop and we never connected…"`,`"I'm sure you just got busy and weren't able to make it."`]},
+  {t:'label',s:'Rebook'},
+  {t:'say',lines:[`"Does this week work better for you?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Is it better for you in the morning or evening?"`]},
+  {t:'stop',s:'Wait. Let him pick.'},
+  {t:'say',lines:[`"Can you do [suggest time] tomorrow?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Okay perfect, The call should only be 20-30 minutes long and it’ll be on Google Meets."`,`"Will you be able to be in front of a computer at that time?"`]},
+  {t:'stop',s:'Wait for the yes.'},
+  {t:'say',lines:[`"Okay, perfect. I got you locked in."`]},
+  {t:'label',s:'The five questions'},
+  {t:'say',lines:[`"Before that call, I want to grab a few quick things about your shop. That way our shop specialist comes in prepared, already knowing where you're at, and we're not wasting your time."`]},
+  {t:'p',s:'Run **The Five Questions** exactly as written. If the note is already filled from the first call, skip them and go to the video.'},
+  {t:'label',s:'Video'},
+  {t:'say',lines:[`"I'm actually going to send you the link to the video right now."`,`"I just sent it. Did you get it? I sent it to your phone. Can you confirm"`]},
+  {t:'stop',s:'Send the video. Wait until he says he got it.',hears:['Yes.']},
+  {t:'say',lines:[`"Perfect. Go ahead and click the link. Can you click that link for me?"`]},
+  {t:'stop',s:'Wait until he clicks it.'},
+  {t:'say',lines:[`"Okay, perfect. Just watch that video, right?"`,`"That video on that link is the short five-minute video that explains what we'll set up, and we'll answer any questions you have."`,`"That way, you can come prepared for the call."`,`"Watch the video…. If you don’t like it, lmk and I’ll cancel your appointment."`,`"Otherwise see you tomorrow at this time."`]},
+  {t:'label',s:'End the call'},
+  {t:'say',lines:[`"I'll send the calendar invite over to phone and email and give you a call in the morning the day of our call just to confirm we're still on. Sounds good?"`]},
   {t:'label',s:'If he says he is not interested anymore',cls:'alt'},
   {t:'say',alt:true,lines:[`"I hear you. Before I let you go, what changed since we talked?"`]},
   {t:'stop',s:'Wait. Write down his reason, in his words.',hears:['Money is tight','I went with someone else','I just got busy'],branch:'Busy or money → go to **If He Brushes You Off**. A real no → DQ / Not Interested, with the reason.'},
@@ -660,17 +681,17 @@ const S = [
 
 // The closer note. Each line names the stage that fills it.
 const NOTE=[
-  {id:'shop',label:'Shop',from:'1 · Open',ph:'ABC Auto Hail Repair'},
-  {id:'location',label:'Location',from:'1 · Open',ph:'San Antonio, TX'},
-  {id:'gmb',label:'GMB',from:'1 · Open',ph:'Paste the link to their Google listing'},
-  {id:'services',label:'Services',from:'2 · Finds him',ph:'Collision, window tint, transmission'},
-  {id:'ticket',label:'Avg. Ticket',from:'5 · Pays',ph:'$800-$1k'},
-  {id:'systems',label:'Systems They Use',from:'5 · Pays',ph:'ShopMonkey / Tekmetric / None'},
-  {id:'website',label:'Website',from:'3 · Clicks',ph:'Vendor / None / Locked In Contract'},
-  {id:'missed',label:'Missed Calls',from:'4 · Calls',ph:'System: Yes / No'},
-  {id:'reviews',label:'Google Review System',from:'6 · Reviews',ph:'None / Asking Customers'},
-  {id:'flow',label:'Lead Flow',from:'7 · Big picture',ph:'Very busy / little flow / none'},
-  {id:'marketing',label:'Marketing',from:'7 · Big picture',ph:'Current status + pain point',area:true},
+  {id:'shop',label:'Shop',from:'3 · Discovering the site',ph:'ABC Auto Hail Repair'},
+  {id:'location',label:'Location',from:'3 · Discovering the site',ph:'San Antonio, TX'},
+  {id:'gmb',label:'GMB',from:'3 · Discovering the site',ph:'Paste the link to their Google listing'},
+  {id:'services',label:'Services',from:'Question 1',ph:'Collision, window tint, transmission'},
+  {id:'ticket',label:'Avg. Ticket',from:'Question 4',ph:'$800-$1k'},
+  {id:'systems',label:'Systems They Use',from:'Question 3',ph:'ShopMonkey / Tekmetric / None'},
+  {id:'website',label:'Website',from:'Question 2',ph:'Vendor / None / Locked In Contract'},
+  {id:'missed',label:'Missed Calls',from:'Only if he brings it up',ph:'System: Yes / No'},
+  {id:'reviews',label:'Google Review System',from:'Question 5',ph:'None / Asking Customers'},
+  {id:'flow',label:'Lead Flow',from:'Only if he brings it up',ph:'Very busy / little flow / none'},
+  {id:'marketing',label:'Marketing',from:'Only if he brings it up',ph:'Current status + pain point',area:true},
   {id:'key',label:'Key note',from:'His words',ph:'What he said with the most heat, in his words',area:true},
 ];
 const EXAMPLE=[
@@ -824,7 +845,7 @@ function wireType(c,st,rerender){
 // ===================== RUN THE CALL =====================
 let ri=-1,rst={};const runEl=document.getElementById('run');let runLog=[];
 function renderRun(){
-  if(ri<0){runEl.innerHTML=`<div class="intro"><h1>Run the call</h1><p>${cards.length} cards, start to finish. Each card is one box from the script. Say it out loud, type it from memory, and the page scores you word for word. Red cards are where you stop and let the owner talk. After the discovery call come the two side paths (he brushes you off, he asks what you do) and the three other calls: auto-booking, confirmation and no-show.</p><button class="btn primary" id="r-start">Start at Stage 1 →</button><p class="hint">Keys: → next · ← back · Ctrl+Enter checks</p></div>`;
+  if(ri<0){runEl.innerHTML=`<div class="intro"><h1>Run the call</h1><p>${cards.length} cards, start to finish. Each card is one box from the script. Say it out loud, type it from memory, and the page scores you word for word. Red cards are where you stop and let the owner talk. After the set call come the two side paths (he brushes you off, he asks what you do) and the three other calls: auto-booking, confirmation and no-show recovery.</p><button class="btn primary" id="r-start">Start at Stage 1 →</button><p class="hint">Keys: → next · ← back · Ctrl+Enter checks</p></div>`;
     document.getElementById('r-start').onclick=()=>{ri=0;rst={};runLog=[];renderRun()};return}
   if(ri>=cards.length){return renderSummary(runEl,runLog,'Run finished',()=>{ri=-1;renderRun()})}
   const c=cards[ri];const pct=Math.round((ri+1)/cards.length*100);
@@ -863,12 +884,12 @@ let draft={};try{draft=JSON.parse(localStorage.getItem('sdc-note')||'{}')}catch(
 function noteText(){return NOTE.map(f=>f.label+': '+((document.getElementById('n-'+f.id)||{}).value||'').trim()).join('\n')}
 function renderNote(){
   noteEl.innerHTML=`<div class="stage-head"><span class="num">✎</span><h1>The Closer Note</h1></div>
-    <p class="lead">This note is the point of the call. Fill it while the call is fresh, copy it, and paste it into the CRM. The tag under each line is the stage that fills it.</p>
+    <p class="lead">This note is the point of the call. Fill it while the call is fresh, copy it, and paste it into the CRM. The tag under each line is the question that fills it.</p>
     <form class="nform" id="nform" autocomplete="off">${NOTE.map(f=>`<div class="nrow"><label for="n-${f.id}">${esc(f.label)}<small>${esc(f.from)}</small></label>${f.area?`<textarea id="n-${f.id}" placeholder="${esc(f.ph)}">${esc(draft[f.id]||'')}</textarea>`:`<input id="n-${f.id}" type="text" placeholder="${esc(f.ph)}" value="${esc(draft[f.id]||'').replace(/"/g,'&quot;')}">`}</div>`).join('')}</form>
     <div class="nact"><button class="btn primary" id="n-copy">Copy note</button><button class="btn" id="n-clear">Clear</button><span class="status" id="n-status" role="status"></span></div>
     <textarea class="nout" id="n-out" readonly hidden aria-label="Note text"></textarea>
     <h2 class="sec">Example: Raul's call</h2>
-    <p class="note">This is the note from a real set. Two lines say "not asked" because the questions never came up on that call. The route exists so no line is left that way.</p>
+    <p class="note">This is the note from a real set. Two lines say "not asked" because the questions never came up on that call.</p>
     <div class="tbl nex"><table><tbody>${EXAMPLE.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table></div>`;
   const form=document.getElementById('nform'),status=document.getElementById('n-status'),out=document.getElementById('n-out'),clr=document.getElementById('n-clear');
   form.addEventListener('submit',e=>e.preventDefault());
