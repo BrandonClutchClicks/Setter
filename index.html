@@ -479,7 +479,7 @@ const S = [
 {id:'how',num:'0',title:'How This Call Works',blocks:[
   {t:'p',s:"Your job on this call is not to sell. Your job is to book the demo and fill the closer note, so the closer walks in already knowing what to hit."},
   {t:'label',s:'The route'},
-  {t:'p',s:"The call is short. Open, confirm the shop, ask five questions, tease, book the time, and get him to click the video link before you hang up. Each question fills one line of the note."},
+  {t:'p',s:"The call is short. Open, confirm the shop, ask five questions, tease, and book the time. Each question fills one line of the note."},
   {t:'table',head:['Stage','Line it fills on the note'],rows:[
     ['1. Intro','Nothing. It gets the yes on the form'],
     ['2. Pre-framing the set','Nothing. His yes to the questions, then one shop or two'],
@@ -564,24 +564,19 @@ const S = [
   {t:'say',lines:[`"Perfect, let me take a look at what’s available…"`]},
 ]},
 {id:'s6',num:'7',title:'Confirming Time',blocks:[
-  {t:'goal',s:'Lock the time, check he will be at a computer, and get him to click the video link while he is still on the phone.'},
+  {t:'goal',s:'Lock the time and check he will be at a computer.'},
   {t:'label',s:'Say this'},
   {t:'say',lines:[`"Perfect, I've got [Day] at [Time A] or [Time B]. Which works better?"`]},
   {t:'stop',s:'Wait. Let him pick one.',hears:['10 is fine',"Let's do 2:30",'1:30']},
   {t:'say',lines:[`"Okay perfect, The call should only be 20-30 minutes long and it’ll be on Google Meets."`,`"Will you be able to be in front of a computer at that time?"`]},
   {t:'stop',s:'Wait for the yes.'},
-  {t:'say',lines:[`"Okay, perfect. I got you locked in."`,`"I'm actually going to send you the link to the video right now."`,`"I just sent it. Did you get it? I sent it to your phone. Can you confirm"`]},
-  {t:'stop',s:'Send the video. Wait until he says he got it.',hears:['Yes.']},
-  {t:'say',lines:[`"Perfect. Go ahead and click the link. Can you click that link for me?"`]},
-  {t:'stop',s:'Wait until he clicks it.'},
-  {t:'say',lines:[`"Okay, perfect. Just watch that video, right?"`,`"That video on that link is the short five-minute video that explains what we'll set up, and we'll answer any questions you have."`,`"That way, you can come prepared for the call."`,`"Watch the video…. If you don’t like it, lmk and I’ll cancel your appointment."`,`"Otherwise see you tomorrow at this time."`]},
 ]},
 {id:'s7',num:'8',title:'End the Call',blocks:[
   {t:'goal',s:'Tell him about the calendar invite and the confirmation call.'},
   {t:'label',s:'Say this'},
   {t:'say',lines:[`"I'll send the calendar invite over to phone and email and give you a call in the morning the day of our call just to confirm we're still on. Sounds good?"`]},
   {t:'stop',s:'Wait for the yes.'},
-  {t:'p',s:'Then fill the note while the call is fresh. It has its own tab: **Note**, in the top bar.'},
+  {t:'p',s:'Then send the video and fill the note while the call is fresh. The note has its own tab: **Note**, in the top bar.'},
 ]},
 {id:'busy',num:'+',title:'If He Brushes You Off',blocks:[
   {t:'goal',s:'Busy, call me later, no money right now, just send me info: it is all the same brush-off, and it gets the same answer. Agree, give him one reason from his listing, and book the time. Ask the questions after.'},
@@ -594,7 +589,7 @@ const S = [
   {t:'stop',s:'Wait. Let him pick one.',hears:['1:30','Give me a call on Saturday',"Ain't no question"],branch:'He names a day → offer two times on that day.'},
   {t:'label',s:'Once he picks a time',cls:'alt'},
   {t:'say',alt:true,lines:[`"Before that call, I want to grab a few quick things about your shop. That way our shop specialist comes in prepared, already knowing where you're at, and we're not wasting your time."`]},
-  {t:'p',s:'Then run **The Five Questions**, send the video the way **Confirming Time** has it, and finish with **End the Call**.'},
+  {t:'p',s:'Then run **The Five Questions** and finish with **End the Call**.'},
 ]},
 {id:'ask',num:'?',title:'If He Asks What You Do',blocks:[
   {t:'goal',s:'Answer in one breath, hand the explaining to the video, and go straight back to your questions. Do not explain the product.'},
