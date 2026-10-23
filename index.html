@@ -265,6 +265,29 @@ body.notemode .notewrap{display:block}
 .nex{margin-top:8px}
 .nex td:first-child{font-weight:600;white-space:nowrap;width:1%}
 @media (max-width:560px){.nrow{grid-template-columns:1fr}.nrow label{padding-top:0}.nex td:first-child{white-space:normal}}
+.cardwrap{display:none;max-width:980px;margin:0 auto;padding-block:28px 80px;padding-inline:20px}
+body.cardmode .frame{display:none}
+body.cardmode .cardwrap{display:block}
+.cardwrap .lead{font-size:17px;max-width:62ch}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+@media (max-width:760px){.cgrid{grid-template-columns:1fr}}
+.cpanel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.cpanel .clabel{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:8px}
+.cpanel textarea{width:100%;min-height:360px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+.cpanel textarea:focus{outline:2px solid var(--amber);outline-offset:1px}
+.cpanel pre{white-space:pre-wrap;word-break:break-word;min-height:360px;margin:0;padding:14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:14px/1.6 ui-monospace,Menlo,Consolas,monospace}
+.cpanel pre a{color:var(--amber)}
+.crow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.crow .sp{flex:1}
+.crow input[type=file]{font-size:13px;color:var(--muted);max-width:100%}
+.cstatus{font-size:14px;color:var(--muted);min-height:20px;margin-top:8px}
+.cstatus.ok{color:var(--ok);font-weight:600}.cstatus.bad{color:var(--stop);font-weight:600}
+.cgbp{margin-top:14px}
+.cgbp h3{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.cgbp .hit{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:13px}
+.cgbp .hit.top{border-color:var(--amber)}
+.cgbp .hit a{color:var(--amber);text-decoration:none}
+.cgbp .meta{color:var(--muted)}
 .pipewrap{display:none;max-width:880px;margin:0 auto;padding-block:28px 80px;padding-inline:20px}
 body.pipemode .frame{display:none}
 body.pipemode .pipewrap{display:block}
@@ -341,6 +364,7 @@ body.tzmode .tzwrap{display:block}
     <button id="m-practice" aria-pressed="false">Practice</button>
     <button id="m-run" aria-pressed="false">Run the call</button>
     <button id="m-note" aria-pressed="false">Note</button>
+    <button id="m-card" aria-pressed="false">Card Fill</button>
     <button id="m-pipe" aria-pressed="false">Pipeline</button>
     <button id="m-book" aria-pressed="false">Booking</button>
     <button id="m-tz" aria-pressed="false">Shop Time</button>
@@ -362,6 +386,41 @@ body.tzmode .tzwrap{display:block}
 
 <section class="run" id="run" aria-live="polite"></section>
 <section class="notewrap" id="note"></section>
+<section class="cardwrap" id="card">
+  <h1>Card Fill</h1>
+  <p class="lead">Paste the Wav Dialer transcript after you set the appointment. Claude fills the card and pulls the shop's Google listing. Copy it, paste it into the appointment notes, keep dialing.</p>
+  <div class="cgrid">
+    <div class="cpanel">
+      <div class="clabel">Transcript</div>
+      <textarea id="cf-transcript" placeholder="Paste the full call transcript here…"></textarea>
+      <div class="crow">
+        <input type="file" id="cf-file" accept=".txt,.md,.vtt,.srt,.json">
+        <span class="sp"></span>
+        <button class="btn" id="cf-clear">Clear</button>
+        <button class="btn primary" id="cf-go">Fill the card</button>
+      </div>
+      <div class="cstatus" id="cf-status"></div>
+    </div>
+    <div class="cpanel">
+      <div class="clabel">Prospect card</div>
+      <pre id="cf-card">Shop:
+Location:
+GMB:
+Services:
+Avg. Ticket:
+Systems They Use:
+Website:
+Missed Calls:
+Google Review System:
+Lead Flow:
+Marketing:
+Key note:
+Appt:</pre>
+      <div class="crow"><span class="sp"></span><button class="btn ok" id="cf-copy" disabled>Copy card</button></div>
+      <div class="cgbp" id="cf-gbp"></div>
+    </div>
+  </div>
+</section>
 <section class="pipewrap" id="pipeline">
   <div class="stage-head"><span class="num">▸</span><h1>Work the Pipeline</h1></div>
   <p class="lead">Keep the dialer on for most of the day. Your job is to get as many owners as possible to answer. A new lead gets a call inside 5 minutes, and everything else is dialed in the order below. When two things compete, the higher one wins.</p>
@@ -979,26 +1038,57 @@ document.querySelector('.tzchips').addEventListener('click',e=>{const b=e.target
 tzIn.value='210';renderTz();renderNow();
 setInterval(()=>{renderNow();renderTz()},20000);
 
+// ===================== CARD FILL =====================
+(function(){
+  const ta=document.getElementById('cf-transcript'),cardEl=document.getElementById('cf-card'),st=document.getElementById('cf-status'),gbpBox=document.getElementById('cf-gbp'),go=document.getElementById('cf-go'),copy=document.getElementById('cf-copy');
+  let lastCard='';
+  const ex=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const blank=()=>['Shop:','Location:','GMB:','Services:','Avg. Ticket:','Systems They Use:','Website:','Missed Calls:','Google Review System:','Lead Flow:','Marketing:','Key note:','Appt:'].join('\n');
+  const setStatus=(m,c='')=>{st.textContent=m;st.className='cstatus '+c};
+  const linkify=t=>t.replace(/(https?:\/\/[^\s)]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+  document.getElementById('cf-file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;ta.value=await f.text();setStatus('Loaded '+f.name)});
+  document.getElementById('cf-clear').onclick=()=>{ta.value='';cardEl.textContent=blank();gbpBox.innerHTML='';lastCard='';copy.disabled=true;setStatus('')};
+  copy.onclick=async()=>{try{await navigator.clipboard.writeText(lastCard);setStatus('Copied. Paste it into the appointment notes.','ok')}catch(e){setStatus('Copy failed. Select the card and copy it by hand.','bad')}};
+  go.onclick=async()=>{
+    const transcript=ta.value.trim();
+    if(transcript.length<50)return setStatus('Paste the full transcript first.','bad');
+    go.disabled=true;setStatus('Reading the call…');
+    try{
+      const res=await fetch('/api/fill-card',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({transcript})});
+      const data=await res.json();
+      if(!res.ok||data.error)throw new Error(data.error||('HTTP '+res.status));
+      lastCard=data.card;cardEl.innerHTML=linkify(ex(data.card));renderGbp(data.gbp);copy.disabled=false;
+      setStatus(data.gbp&&data.gbp.length?'Done. Check the GBP match is the right shop.':'Done. No GBP match. Search it by hand.','ok');
+    }catch(err){setStatus('Error: '+err.message,'bad')}finally{go.disabled=false}
+  };
+  function renderGbp(list){
+    gbpBox.innerHTML='';if(!list||!list.length)return;
+    gbpBox.innerHTML='<h3>Google listing matches</h3>'+list.map((p,i)=>`<div class="hit ${i===0?'top':''}"><div><a href="${ex(p.maps_url)}" target="_blank" rel="noopener">${ex(p.name)}</a><div class="meta">${ex(p.address)}${p.phone?' · '+ex(p.phone):''}</div>${p.website?`<div class="meta"><a href="${ex(p.website)}" target="_blank" rel="noopener">${ex(p.website)}</a></div>`:''}</div><div class="meta">${p.rating?`${p.rating}★ / ${p.reviews}`:'no rating'}</div></div>`).join('');
+  }
+})();
+
 // ===================== MODES =====================
-const mRead=document.getElementById('m-read'),mPr=document.getElementById('m-practice'),mRun=document.getElementById('m-run'),mNote=document.getElementById('m-note'),mPipe=document.getElementById('m-pipe'),mBook=document.getElementById('m-book'),mTz=document.getElementById('m-tz');
+const mRead=document.getElementById('m-read'),mPr=document.getElementById('m-practice'),mRun=document.getElementById('m-run'),mNote=document.getElementById('m-note'),mCard=document.getElementById('m-card'),mPipe=document.getElementById('m-pipe'),mBook=document.getElementById('m-book'),mTz=document.getElementById('m-tz');
 function setMode(m){
   document.body.classList.toggle('practice',m==='practice');
   document.body.classList.toggle('runmode',m==='run');
   document.body.classList.toggle('notemode',m==='note');
+  document.body.classList.toggle('cardmode',m==='cardfill');
   document.body.classList.toggle('pipemode',m==='pipeline');
   document.body.classList.toggle('bookmode',m==='booking');
   document.body.classList.toggle('tzmode',m==='shoptime');
-  [mRead,mPr,mRun,mNote,mPipe,mBook,mTz].forEach(b=>b.setAttribute('aria-pressed','false'));
-  ({read:mRead,practice:mPr,run:mRun,note:mNote,pipeline:mPipe,booking:mBook,shoptime:mTz})[m].setAttribute('aria-pressed','true');
-  if(m==='note'||m==='pipeline'||m==='booking'||m==='shoptime')window.scrollTo({top:0});
+  [mRead,mPr,mRun,mNote,mCard,mPipe,mBook,mTz].forEach(b=>b.setAttribute('aria-pressed','false'));
+  ({read:mRead,practice:mPr,run:mRun,note:mNote,cardfill:mCard,pipeline:mPipe,booking:mBook,shoptime:mTz})[m].setAttribute('aria-pressed','true');
+  if(m==='note'||m==='cardfill'||m==='pipeline'||m==='booking'||m==='shoptime')window.scrollTo({top:0});
   if(m!=='practice')document.querySelectorAll('.say.open').forEach(s=>s.classList.remove('open'));
   if(m==='run'){ri=-1;renderRun()}
   try{localStorage.setItem('sdc-mode',m)}catch(e){}
 }
-mRead.onclick=()=>setMode('read');mPr.onclick=()=>setMode('practice');mRun.onclick=()=>setMode('run');mNote.onclick=()=>setMode('note');mPipe.onclick=()=>setMode('pipeline');mBook.onclick=()=>setMode('booking');mTz.onclick=()=>setMode('shoptime');
+mRead.onclick=()=>setMode('read');mPr.onclick=()=>setMode('practice');mRun.onclick=()=>setMode('run');mNote.onclick=()=>setMode('note');mCard.onclick=()=>setMode('cardfill');mPipe.onclick=()=>setMode('pipeline');mBook.onclick=()=>setMode('booking');mTz.onclick=()=>setMode('shoptime');
 
 let savedMode='read';try{savedMode=localStorage.getItem('sdc-mode')||'read'}catch(e){}
-if(!['read','practice','note','pipeline','booking','shoptime'].includes(savedMode))savedMode='read';
+if(!['read','practice','note','cardfill','pipeline','booking','shoptime'].includes(savedMode))savedMode='read';
+if(location.hash==='#card')savedMode='cardfill';
 setMode(savedMode);
 </script>
 
