@@ -592,6 +592,9 @@ const S = [
   {t:'label',s:'If you cannot find his listing',cls:'alt'},
   {t:'say',alt:true,lines:[`"I'm trying to pull up your listing here, but it's not popping up. Do you guys have a Google listing?"`]},
   {t:'stop',s:'Wait for the answer.',hears:["I don't think so",'Yeah, it should be there'],branch:'No listing → write "GMB: none found" on the note and keep going.'},
+  {t:'label',s:'Or ask him the address',cls:'alt'},
+  {t:'say',alt:true,lines:[`"What’s the address there, so I make sure I’ve got the right listing?"`]},
+  {t:'stop',s:'Wait for the address. Match it to the listing and copy the listing link into the note.',hears:['8381 Big Meadows Road','224 Essex Street, Brooklyn'],branch:'Still nothing comes up → write "GMB: none found" on the note and keep going.'},
 ]},
 {id:'s4',num:'4',title:'The Tease',blocks:[
   {t:'goal',s:'Give him a reason to show up. Name two or three shops near him, then say one thing you see on his listing. Fills **Website, Google Review System**.'},
